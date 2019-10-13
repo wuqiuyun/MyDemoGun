@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wqy.mydemo.JsonActivity">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="用于轮播"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/buttom1"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="刷新" />
+
+    <Button
+        android:id="@+id/buttom2"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="显示" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="用于显示json"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/chats_view"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#ff87CEEB"
+        android:focusable="false"
+        android:maxLines="1"
+        android:text="你好字符"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:textColor="#000000" />
+
+    <com.wqy.mydemo.MarqueeTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/marqueeTv"/>
+</LinearLayout>
