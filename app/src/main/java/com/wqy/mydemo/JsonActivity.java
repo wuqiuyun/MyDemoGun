@@ -1,17 +1,16 @@
 package com.wqy.mydemo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.PatternSyntaxException;
 
 public class JsonActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,9 +31,13 @@ public class JsonActivity extends AppCompatActivity implements View.OnClickListe
     private String mJson;
     private EditText chats_view;
     private MarqueeTextView marqueeTv;
-    private String [] textArrays = new String[]{"this is content No.1","this is content No.2","this is content No.3"};
-    private String [] textArrays1 = new String[]{"this is content No.1"};
+    private String[] textArrays = new String[]{"this is content No.1", "this is content No.2", "this is content No.3"};
+    private String[] textArrays1 = new String[]{"this is content No.1"};
 
+    private SearchView searchView;
+    private Button btnStart;
+    private Button btnShow;
+    private List<String> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,56 @@ public class JsonActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_json);
         initView();
         darkWord();
+
+
+        searchView = findViewById(R.id.search_view);
+        btnStart = findViewById(R.id.btn_start);
+        btnShow = findViewById(R.id.btn_show);
+        btnShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btnShow.setText("当前内容- " + searchView.getCurrentSearchText());
+            }
+        });
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                list.clear();
+                list.add("推荐歌曲");
+                list.add("挺好听的");
+                searchView.setSearchList(list);
+            }
+        });
+
+        list.clear();
+        list.add("推荐歌曲");
+        list.add("挺好听的");
+        searchView.setSearchList(list);
+        searchView.setTargetContent("挺好听的");
+        // 默认动画效果就是渐变和位移，可以通过这个设置动画的时长，默认是1000
+        searchView.setAnimationDuration(1000);
+        // 设置搜索的切换间隔，时间比动画的时长长就好，默认是3000
+        searchView.setSearchDuration(1000);
+        searchView.setOnItemClickListener(new SearchView.OnItemClickListener() {
+            @Override
+            public void onItemClick(EditText view, int position) {
+                String s = list.get(position);
+                view.setTextColor(Color.GRAY);
+                Toast.makeText(JsonActivity.this, s, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchView.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        searchView.pause();
     }
 
     private void initView() {
@@ -58,7 +110,7 @@ public class JsonActivity extends AppCompatActivity implements View.OnClickListe
         marqueeTv.setTextArraysAndClickListener(textArrays1, new MarqueeTextViewClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(JsonActivity.this,AnotherActivity.class));
+                startActivity(new Intent(JsonActivity.this, AnotherActivity.class));
             }
         });
     }
@@ -152,7 +204,7 @@ public class JsonActivity extends AppCompatActivity implements View.OnClickListe
     private void fresh() {
         tv_banner.setText(getBanner());
 
-        chats_view.setSelection(chats_view.getText().length() , chats_view.getText().length());
+        chats_view.setSelection(chats_view.getText().length(), chats_view.getText().length());
         chats_view.setMovementMethod(ScrollingMovementMethod.getInstance());
         chats_view.setText(getBanner());
     }
